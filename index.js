@@ -1,7 +1,8 @@
 //Libraries and methods
-const express = require('express')
+const express = require('express');
 const app = express();
 const genres = require('./routes/genres');
+const customers = require('./routes/customers');
 const mongoose = require('mongoose');
 
 //Database connection
@@ -13,6 +14,7 @@ mongoose.connect(`mongodb://localhost/${DB_NAME}`,{useNewUrlParser: true, useUni
 //JSON parssing for express middleware
 app.use(express.json());
 app.use('/api/genres',genres);
+app.use('/api/customers',customers);
 
 //Port installation and listening
 const port = process.env.PORT || 3000;

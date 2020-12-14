@@ -1,37 +1,7 @@
 //Libraries and methods
 const express = require('express')
 const router = express.Router();
-const Joi = require('joi');
-const mongoose = require('mongoose');
-
-//Database schema
-const Genre = new mongoose.model('Genre', new mongoose.Schema({
-    name: {
-        type: String,
-        minlength: 3,
-        maxlength: 50,
-        required: true
-    }
-}));
-
-//Input Validation funtion using JOI schemas for the request body
-function validateObjects(genre){
-    const schema = Joi.object({
-        name: Joi.string().min(3).required()
-    });
-    return schema.validate(genre);
-}
-
-//JSON data for testing purposes
-// const genres = [
-//     {id:1,name:'Rock'},
-//     {id:2,name:'EDM'},
-//     {id:3,name:'Rap'},
-//     {id:4,name:'Classic'},
-//     {id:5,name:'Jazz'},
-//     {id:6,name:'Indie'},
-//     {id:7,name:'Metal'},
-// ]
+const {Genre,validate} = require('../models/genres');
 
 //RESTful APIs
 router.get('/',async (req,res)=>{
@@ -52,14 +22,14 @@ router.get('/:id', async (req,res)=>{
 });
 
 router.put('/:id',async (req,res)=>{
+    //Validating the request body data before updating
+    const {error} = validate(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
     //Check for the id existance
     const genre = await Genre.findById(String(req.params.id));
     if(!genre) return res.status(400).send('The genre with the given id could not be found!');
 
-    //Validating the request body data before updating
-    const {error} = validateObjects(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
-    
     //Updating the data inside the JSON array we made and sending the updated object as a response
     genre.name = req.body.name;
     genre.save();
@@ -68,7 +38,7 @@ router.put('/:id',async (req,res)=>{
 
 router.post('/', async (req,res)=>{
     //Validating the request body data before updating
-    const {error} = validateObjects(req.body);
+    const {error} = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
     let genre = new Genre({ name: req.body.name });
