@@ -28,7 +28,7 @@ router.post('/', async (req,res)=>{
     const {error} = validateMovie(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
-    let movie = new Movie({
+    const movie = new Movie({
         title: req.body.title,
         genre: {
             _id: req.body.genre.id,
@@ -37,7 +37,7 @@ router.post('/', async (req,res)=>{
         numberInStock: req.body.numberInStock,
         dailyRentalRate: req.body.dailyRentalRate
     });
-    movie = await movie.save();
+    await movie.save();
     res.send(movie);
 
 });

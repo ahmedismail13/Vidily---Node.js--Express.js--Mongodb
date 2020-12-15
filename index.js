@@ -6,6 +6,8 @@ const customers = require('./routes/customers');
 const movies = require('./routes/movies')
 const rentals = require('./routes/rentals');
 const mongoose = require('mongoose');
+const Joi = require('Joi');
+Joi.objectId = require('joi-objectid')(Joi);
 
 //Database connection
 const DB_NAME = 'vidily';

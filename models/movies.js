@@ -36,7 +36,7 @@ function validateObjects(movie){
     const schema = Joi.object({
         title: Joi.string().min(5).max(100).required(),
         genre: Joi.object({
-            _id: Joi.string(),
+            _id: Joi.objectId(),
             name: Joi.string()
         }),
         numberInStock: Joi.number().min(0).required(),
