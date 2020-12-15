@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
+const movies = require('./routes/movies')
 const mongoose = require('mongoose');
 
 //Database connection
@@ -15,6 +16,7 @@ mongoose.connect(`mongodb://localhost/${DB_NAME}`,{useNewUrlParser: true, useUni
 app.use(express.json());
 app.use('/api/genres',genres);
 app.use('/api/customers',customers);
+app.use('/api/movies',movies);
 
 //Port installation and listening
 const port = process.env.PORT || 3000;

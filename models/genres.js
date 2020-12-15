@@ -2,14 +2,16 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 
 //Database schema
-const Genre = mongoose.model('Genre', new mongoose.Schema({
+const genreSchema = new mongoose.Schema({
     name: {
         type: String,
         minlength: 3,
         maxlength: 50,
         required: true
     }
-}));
+});
+
+const Genre = mongoose.model('Genre', genreSchema );
 
 //Input Validation funtion using JOI schemas for the request body
 function validateObjects(genre){
@@ -20,3 +22,4 @@ function validateObjects(genre){
 }
 module.exports.Genre = Genre;
 module.exports.validate = validateObjects;
+module.exports.genreSchema = genreSchema;
