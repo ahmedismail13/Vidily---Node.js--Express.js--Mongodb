@@ -1,4 +1,5 @@
 //Libraries and methods
+const config = require('config');
 const express = require('express');
 const app = express();
 const genres = require('./routes/genres');
@@ -11,6 +12,11 @@ const mongoose = require('mongoose');
 const Joi = require('Joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
+
+if(!config.get('jwtPrivateKey')){
+    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+    process.exit(1);
+}
 //Database connection
 const DB_NAME = 'vidily';
 mongoose.connect(`mongodb://localhost/${DB_NAME}`,{useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify:false,useCreateIndex:true})
