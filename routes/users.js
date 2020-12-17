@@ -4,6 +4,7 @@ const express = require('express')
 const router = express.Router();
 const {User,validateUser} = require('../models/user');
 const bcrypt = require('bcrypt');
+const auth = require('../middleware/auth');
 
 //RESTful APIs
 router.post('/',async (req,res)=>{
@@ -21,6 +22,11 @@ router.post('/',async (req,res)=>{
     await user.save();
     const token = user.generateAuthToken();
     res.header('x-auth-token',token).send(_.pick(user,['_id','name','email']));
+});
+
+router.get('/me', auth, async(req,res)=>{
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
 });
 
 module.exports = router;

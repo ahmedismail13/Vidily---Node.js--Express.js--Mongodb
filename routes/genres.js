@@ -2,7 +2,8 @@
 const express = require('express')
 const router = express.Router();
 const {Genre,validate} = require('../models/genres');
-
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 //RESTful APIs
 router.get('/',async (req,res)=>{
     const genres =  await Genre.find().sort('name');
@@ -36,7 +37,7 @@ router.put('/:id',async (req,res)=>{
     res.send(genre);
 });
 
-router.post('/', async (req,res)=>{
+router.post('/',auth, async (req,res)=>{
     //Validating the request body data before updating
     const {error} = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -47,7 +48,7 @@ router.post('/', async (req,res)=>{
 
 });
 
-router.delete('/:id', async (req,res)=>{
+router.delete('/:id',[auth,admin], async (req,res)=>{
     //Deleting the desired object from the JSON array and returing the deleted data as a response
     const genre = await Genre.findByIdAndRemove(String(req.params.id));
     if(!genre) return res.status(400).send('The genre with the given id could not be found!');
