@@ -1,7 +1,7 @@
 //Libraries and methods
 const config = require('config');
 const express = require('express');
-const app = express();
+const error = require('./middleware/error');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
 const movies = require('./routes/movies')
@@ -11,6 +11,8 @@ const auth = require('./routes/auth');
 const mongoose = require('mongoose');
 const Joi = require('Joi');
 Joi.objectId = require('joi-objectid')(Joi);
+require('express-async-errors');
+const app = express();
 
 
 if(!config.get('jwtPrivateKey')){
@@ -31,6 +33,8 @@ app.use('/api/movies',movies);
 app.use('/api/rentals',rentals);
 app.use('/api/users',users);
 app.use('/api/auth',auth);
+
+app.use(error);
 
 //Port installation and listening
 const port = process.env.PORT || 3000;

@@ -4,8 +4,9 @@ const router = express.Router();
 const {Genre,validate} = require('../models/genres');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+
 //RESTful APIs
-router.get('/',async (req,res)=>{
+router.get('/', async (req,res)=>{
     const genres =  await Genre.find().sort('name');
     res.send(genres);
 });
