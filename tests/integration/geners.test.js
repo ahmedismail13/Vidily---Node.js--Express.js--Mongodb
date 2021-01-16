@@ -7,7 +7,7 @@ let server;
 describe('/api/genres', () => {
     beforeEach(() => { server = require('../../index'); });
     afterEach(async () => {
-        server.close();
+        await server.close();
         await Genre.deleteMany({});
     });
 
@@ -99,14 +99,14 @@ describe('/api/genres', () => {
             expect(res.body).toHaveProperty('name', 'genre1');
         });
     });
-    describe('PUT /:id', () => {
-        it('', () => {
+    // describe('PUT /:id', () => {
+    //     it('', () => {
 
-        });
-    });
-    describe('DELTE /:id', () => {
-        it('', () => {
+    //     });
+    // });
+    // describe('DELTE /:id', () => {
+    //     it('', () => {
 
-        });
-    });
+    //     });
+    // });
 });

@@ -9,7 +9,7 @@ const validateObjectId = require('../middleware/validateObjectId');
 //RESTful APIs
 router.get('/', async (req, res) => {
     const genres = await Genre.find().sort('name');
-    res.send(genres);
+    return res.send(genres);
 });
 
 router.get('/:id', validateObjectId, async (req, res) => {
@@ -24,7 +24,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', [validateObjectId, auth], async (req, res) => {
     //Validating the request body data before updating
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
