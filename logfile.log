@@ -960,3 +960,5 @@
 {"message":"Connected to mongodb://localhost/vidily_tests MongoDb...","level":"info"}
 {"message":"Listing to port 3000...","level":"info"}
 {"message":"Connected to mongodb://localhost/vidily_tests MongoDb...","level":"info"}
+{"message":"Listing to port 3000...","level":"info"}
+{"message":"Connected to mongodb://localhost/vidily MongoDb...","level":"info"}
